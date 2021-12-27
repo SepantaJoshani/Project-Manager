@@ -34,7 +34,7 @@ const textFieldCss = (theme) => ({
 const HomePage = () => {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
-  const [value, setValue] = useState(null);
+
 
   const [websiteChecked, setWebsiteChecked] = useState(false);
   const [iOSChecked, setIOSChecked] = useState(false);
@@ -43,6 +43,7 @@ const HomePage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
   const [date, setDate] = useState(new Date());
+  const [total, setTotal] = useState("");
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -134,7 +135,12 @@ const HomePage = () => {
           <TableComponent />
         </Grid>
         {/******** Dialog Section (optinal Section) ********/}
-        <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
+        <Dialog
+          fullWidth
+          maxWidth="md"
+          open={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+        >
           <Grid container justifyContent={"center"}>
             <Grid item>
               <Typography variant="h1" gutterBottom>
@@ -143,32 +149,57 @@ const HomePage = () => {
             </Grid>
           </Grid>
           <DialogContent>
-            <Grid container>
+            <Grid container justifyContent={"space-around"}>
               {/******** Name Col ********/}
-              <Grid item container direction={"column"}>
-                <Grid item>
-                  <TextField
-                    variant="standard"
-                    label="Name"
-                    id="name"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                  />
+              <Grid item>
+                <Grid item container direction={"column"} sm>
+                  <Grid item>
+                    <TextField
+                      variant="standard"
+                      label="Name"
+                      id="name"
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
               {/******** Datepicker Col ********/}
-              <Grid item container direction="column">
-                <Grid item>
-                  <DatePicker
-                    inputFormat="MM/dd/yyyy"
-                    value={date}
-                    onChange={(newDate) => setDate(newDate)}
-                    renderInput={(params) => (
-                      <TextField variant="standard" {...params} />
-                    )}
-                  />
+              <Grid item>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  css={{ marginTop: 16 }}
+                  sm
+                >
+                  <Grid item>
+                    <DatePicker
+                      inputFormat="MM/dd/yyyy"
+                      value={date}
+                      onChange={(newDate) => setDate(newDate)}
+                      renderInput={(params) => (
+                        <TextField variant="standard" {...params} />
+                      )}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/******** Total Col ********/}
+              <Grid item>
+                <Grid item container direction={"column"} sm>
+                  <Grid item>
+                    <TextField
+                      variant="standard"
+                      label="total"
+                      id="total"
+                      value={total}
+                      onChange={(e) => setTotal(e.target.value)}
+                     InputProps={{startAdornment:<InputAdornment position="start">$</InputAdornment>}}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
