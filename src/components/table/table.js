@@ -105,7 +105,9 @@ const TableComponent = () => {
                 <TableCell align="center">{row.name}</TableCell>
                 <TableCell align="center">{row.date}</TableCell>
                 <TableCell align="center">{row.service}</TableCell>
-                <TableCell align="center" sx={{maxWidth:'5rem'}}>{row.features}</TableCell>
+                <TableCell align="center" sx={{ maxWidth: "5rem" }}>
+                  {row.features}
+                </TableCell>
                 <TableCell align="center">{row.complexity}</TableCell>
                 <TableCell align="center">{row.platforms}</TableCell>
                 <TableCell align="center">{row.users}</TableCell>

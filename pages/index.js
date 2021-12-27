@@ -18,6 +18,8 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "@mui/lab/DatePicker";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
 const formControlCss = css`
   margin-right: 5rem;
@@ -31,10 +33,15 @@ const textFieldCss = (theme) => ({
   // },
 });
 
+const radioLabelCss = {
+  ".MuiFormControlLabel-label": {
+    fontWeight: 300,
+  },
+};
+
 const HomePage = () => {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
-
 
   const [websiteChecked, setWebsiteChecked] = useState(false);
   const [iOSChecked, setIOSChecked] = useState(false);
@@ -44,6 +51,9 @@ const HomePage = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState(new Date());
   const [total, setTotal] = useState("");
+  const [service, setService] = useState("");
+  const [complexity, setComplexity] = useState("");
+  const [users, setUsers] = useState("");
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -131,6 +141,7 @@ const HomePage = () => {
             <FilterListIcon color="secondary" css={{ fontSize: 50 }} />
           </Grid>
         </Grid>
+
         <Grid item>
           <TableComponent />
         </Grid>
@@ -155,6 +166,7 @@ const HomePage = () => {
                 <Grid item container direction={"column"} sm>
                   <Grid item>
                     <TextField
+                      fullWidth
                       variant="standard"
                       label="Name"
                       id="name"
@@ -164,11 +176,50 @@ const HomePage = () => {
                       }}
                     />
                   </Grid>
+                  {/******** Name Col (Radio Btn) ********/}
+                  <Grid
+                    item
+                    container
+                    direction="column"
+                    css={{ marginTop: "5rem" }}
+                  >
+                    <Grid item>
+                      <Typography variant="h4">Service</Typography>
+                    </Grid>
+                    <Grid item>
+                      <RadioGroup
+                        aria-label="service"
+                        name="service"
+                        value={service}
+                        onChange={(e) => setService(e.target.value)}
+                      >
+                        <FormControlLabel
+                          css={radioLabelCss}
+                          value="website"
+                          label="website"
+                          control={<Radio color='secondary' />}
+                        />
+                        <FormControlLabel
+                          css={radioLabelCss}
+                          value="Mobile App"
+                          label="Mobile App"
+                          control={<Radio color='secondary' />}
+                        />
+                        <FormControlLabel
+                          css={radioLabelCss}
+                          value="Custom Software"
+                          label="Custom Software"
+                          control={<Radio color='secondary' />}
+                        />
+                      </RadioGroup>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
               {/******** Datepicker Col ********/}
               <Grid item>
                 <Grid
+                  alignItems={"center"}
                   item
                   container
                   direction="column"
@@ -185,11 +236,57 @@ const HomePage = () => {
                       )}
                     />
                   </Grid>
+                  {/******** Datepicker Col (Radio Btn) ********/}
+                  <Grid item>
+                    <Grid
+                      item
+                      container
+                      direction="column"
+                      css={{ marginTop: "5rem" }}
+                    >
+                      <Grid item>
+                        <Typography variant="h4">Complexity</Typography>
+                      </Grid>
+                      <Grid item>
+                        <RadioGroup
+                          aria-label="complexity"
+                          name="complexity"
+                          value={complexity}
+                          onChange={(e) => setComplexity(e.target.value)}
+                        >
+                          <FormControlLabel
+                            css={radioLabelCss}
+                            value="Low"
+                            label="Low"
+                            control={<Radio color='secondary' />}
+                          />
+                          <FormControlLabel
+                            css={radioLabelCss}
+                            value="Medium"
+                            label="Medium"
+                            control={<Radio color='secondary' />}
+                          />
+                          <FormControlLabel
+                            css={radioLabelCss}
+                            value="High"
+                            label="High"
+                            control={<Radio color='secondary' />}
+                          />
+                        </RadioGroup>
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
               {/******** Total Col ********/}
               <Grid item>
-                <Grid item container direction={"column"} sm>
+                <Grid
+                  item
+                  container
+                  direction={"column"}
+                  alignItems={"flex-end"}
+                  sm
+                >
                   <Grid item>
                     <TextField
                       variant="standard"
@@ -197,8 +294,52 @@ const HomePage = () => {
                       id="total"
                       value={total}
                       onChange={(e) => setTotal(e.target.value)}
-                     InputProps={{startAdornment:<InputAdornment position="start">$</InputAdornment>}}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">$</InputAdornment>
+                        ),
+                      }}
                     />
+                  </Grid>
+                  {/******** Total Col (Radio Btn) ********/}
+                  <Grid item >
+                    <Grid
+                      item
+                      container
+                      direction="column"
+                      css={{ marginTop: "5rem", marginLeft: 16 }}
+                    >
+                      <Grid item>
+                        <Typography variant="h4">Users</Typography>
+                      </Grid>
+                      <Grid item>
+                        <RadioGroup
+                          aria-label="users"
+                          name="users"
+                          value={users}
+                          onChange={(e) => setUsers(e.target.value)}
+                        >
+                          <FormControlLabel
+                            css={radioLabelCss}
+                            value="0-10"
+                            label="0-10"
+                            control={<Radio color='secondary' />}
+                          />
+                          <FormControlLabel
+                            css={radioLabelCss}
+                            value="10-100"
+                            label="10-100"
+                            control={<Radio color='secondary' />}
+                          />
+                          <FormControlLabel
+                            css={radioLabelCss}
+                            value="100+"
+                            label="100+"
+                            control={<Radio color='secondary' />}
+                          />
+                        </RadioGroup>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
