@@ -87,7 +87,6 @@ const theme = createTheme({
     },
   },
 
-  // try the color prop to ***************
   components: {
     MuiInput: {
       styleOverrides: {
@@ -95,7 +94,6 @@ const theme = createTheme({
           ":before": {
             borderBottom: `2px solid ${arcBlue}`,
           },
-         
         },
         root: {
           color: arcGrey,
@@ -122,7 +120,22 @@ const theme = createTheme({
         },
       },
     },
- 
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontSize: "1rem",
+          fontWeight: 700,
+          color: arcBlue,
+          borderColor: arcBlue,
+          borderWidth: 2,
+        },
+        body: {
+          color: arcGrey,
+          borderColor: arcBlue,
+          borderWidth: 2,
+        },
+      },
+    },
 
     // MuiFormControl:{
     //   styleOverrides:{

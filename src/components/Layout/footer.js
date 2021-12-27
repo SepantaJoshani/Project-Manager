@@ -21,9 +21,11 @@ const Footer = () => {
       css={(theme) => ({
         width: "100%",
         background: theme.palette.primary.main,
+        marginTop:'15rem'
       })}
     >
-      <Grid container justifyContent={"center"}>
+      
+      <Grid container justifyContent={"center"} css={{position: 'relative'}}>
         <Grid
           item
           container
