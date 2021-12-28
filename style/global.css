@@ -4,5 +4,12 @@
 }
 
 .css-z4l6y0-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled):before {
-  border-bottom: 2px solid #0B72B9 !important;
+  border-bottom: 2px solid #0b72b9 !important;
+}
+.css-1clsg8-MuiInputBase-root-MuiInput-root-HomePage:hover:not(.Mui-disabled):before {
+  border-bottom: 2px solid #0b72b9 !important;
+}
+
+.css-2m3sc7-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled):before {
+  border-bottom: 2px solid #0b72b9 !important;
 }

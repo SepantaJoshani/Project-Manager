@@ -175,6 +175,14 @@ const HomePage = () => {
       ),
     ]);
     setIsDialogOpen(false);
+    setName("");
+    setDate(new Date());
+    setTotal("");
+    setService("");
+    setComplexity("");
+    setUsers("");
+    setPlatforms([]);
+    setFeatures([]);
   };
 
   return (
@@ -527,7 +535,24 @@ const HomePage = () => {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" css={addBtn} onClick={addProject}>
+                <Button
+                  variant="contained"
+                  css={addBtn}
+                  disabled={
+                    service === "website"
+                      ? name.length === 0 ||
+                        total.length === 0 ||
+                        features.length === 0
+                      : name.length === 0 ||
+                        total.length === 0 ||
+                        features.length === 0 ||
+                        users.length === 0 ||
+                        complexity.length === 0 ||
+                        platforms.length === 0 ||
+                        service.length === 0
+                  }
+                  onClick={addProject}
+                >
                   Add Project +
                 </Button>
               </Grid>

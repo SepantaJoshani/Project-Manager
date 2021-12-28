@@ -156,6 +156,15 @@ const theme = createTheme({
           }
         }
       }
+    },
+    MuiSelect:{
+      styleOverrides:{
+        select:{
+          ":focus":{
+            background:'none'
+          }
+        }
+      }
     }
     // MuiFormControl:{
     //   styleOverrides:{
