@@ -20,18 +20,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "@mui/lab/DatePicker";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const formControlCss = css`
   margin-right: 5rem;
 `;
 
-const textFieldCss = (theme) => ({
-  width: "35rem",
-  marginLeft: "5rem",
-  // [theme.breakpoints.down("md")]: {
-  //   background: "red",
-  // },
-});
+const SearchInpCss = css`
+  width: 35rem;
+  margin-left: 5rem;
+  /* .css-z4l6y0-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled):before {
+    border-bottom: 2px solid #0b72b9 !important;
+  } */
+`;
 
 const radioLabelCss = {
   ".MuiFormControlLabel-label": {
@@ -39,7 +41,21 @@ const radioLabelCss = {
   },
 };
 
+// const userRadioStyle ={
+
+// }
+
 const HomePage = () => {
+  const platformOptions = ["web", "iOS", "Android"];
+  const featureOptions = [
+    "Photo/Video",
+    "GPS",
+    "File Transfer",
+    "Users/Authentication",
+    "Biometrics",
+    "Push Notifications",
+  ];
+
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -54,6 +70,8 @@ const HomePage = () => {
   const [service, setService] = useState("");
   const [complexity, setComplexity] = useState("");
   const [users, setUsers] = useState("");
+  const [platforms, setPlatforms] = useState([]);
+  const [features, setFeatures] = useState([]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -65,7 +83,9 @@ const HomePage = () => {
           <TextField
             placeholder="Search projects or enter a new"
             variant="standard"
-            css={textFieldCss}
+            css={css`
+              ${SearchInpCss}
+            `}
             InputProps={{
               endAdornment: (
                 <InputAdornment
@@ -176,7 +196,7 @@ const HomePage = () => {
                       }}
                     />
                   </Grid>
-                  {/******** Name Col (Radio Btn) ********/}
+                  {/******** Name Col (Service Radio Btn) ********/}
                   <Grid
                     item
                     container
@@ -197,21 +217,42 @@ const HomePage = () => {
                           css={radioLabelCss}
                           value="website"
                           label="website"
-                          control={<Radio color='secondary' />}
+                          control={<Radio color="secondary" />}
                         />
                         <FormControlLabel
                           css={radioLabelCss}
                           value="Mobile App"
                           label="Mobile App"
-                          control={<Radio color='secondary' />}
+                          control={<Radio color="secondary" />}
                         />
                         <FormControlLabel
                           css={radioLabelCss}
                           value="Custom Software"
                           label="Custom Software"
-                          control={<Radio color='secondary' />}
+                          control={<Radio color="secondary" />}
                         />
                       </RadioGroup>
+                    </Grid>
+                    <Grid item css={{ marginTop: "5rem" }}>
+                      <Select
+                        css={{ width: "12rem" }}
+                        displayEmpty
+                        renderValue={
+                          platforms.length > 0 ? null : () => "platforms"
+                        }
+                        labelId="platforms"
+                        id="platforms"
+                        multiple
+                        value={platforms}
+                        onChange={(e) => setPlatforms(e.target.value)}
+                        variant="standard"
+                      >
+                        {platformOptions.map((option) => (
+                          <MenuItem key={option} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -236,7 +277,7 @@ const HomePage = () => {
                       )}
                     />
                   </Grid>
-                  {/******** Datepicker Col (Radio Btn) ********/}
+                  {/******** Datepicker Col (Complexity Radio Btn) ********/}
                   <Grid item>
                     <Grid
                       item
@@ -258,19 +299,19 @@ const HomePage = () => {
                             css={radioLabelCss}
                             value="Low"
                             label="Low"
-                            control={<Radio color='secondary' />}
+                            control={<Radio color="secondary" />}
                           />
                           <FormControlLabel
                             css={radioLabelCss}
                             value="Medium"
                             label="Medium"
-                            control={<Radio color='secondary' />}
+                            control={<Radio color="secondary" />}
                           />
                           <FormControlLabel
                             css={radioLabelCss}
                             value="High"
                             label="High"
-                            control={<Radio color='secondary' />}
+                            control={<Radio color="secondary" />}
                           />
                         </RadioGroup>
                       </Grid>
@@ -301,8 +342,8 @@ const HomePage = () => {
                       }}
                     />
                   </Grid>
-                  {/******** Total Col (Radio Btn) ********/}
-                  <Grid item >
+                  {/******** Total Col ( Users Radio Btn) ********/}
+                  <Grid item>
                     <Grid
                       item
                       container
@@ -323,21 +364,43 @@ const HomePage = () => {
                             css={radioLabelCss}
                             value="0-10"
                             label="0-10"
-                            control={<Radio color='secondary' />}
+                            control={<Radio color="secondary" />}
                           />
                           <FormControlLabel
                             css={radioLabelCss}
                             value="10-100"
                             label="10-100"
-                            control={<Radio color='secondary' />}
+                            control={<Radio color="secondary" />}
                           />
                           <FormControlLabel
                             css={radioLabelCss}
                             value="100+"
                             label="100+"
-                            control={<Radio color='secondary' />}
+                            control={<Radio color="secondary" />}
                           />
                         </RadioGroup>
+                      </Grid>
+                      <Grid item css={{ marginTop: "5rem" }}>
+                        <Select
+                          css={{ width: "12rem" }}
+                          displayEmpty
+                          renderValue={
+                            features.length > 0 ? null : () => "features"
+                          }
+                          labelId="features"
+                          MenuProps={{ style: { zIndex: 1302 } }}
+                          id="features"
+                          multiple
+                          value={features}
+                          onChange={(e) => setFeatures(e.target.value)}
+                          variant="standard"
+                        >
+                          {featureOptions.map((option) => (
+                            <MenuItem key={option} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
                       </Grid>
                     </Grid>
                   </Grid>

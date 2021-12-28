@@ -94,6 +94,7 @@ const theme = createTheme({
           ":before": {
             borderBottom: `2px solid ${arcBlue}`,
           },
+          
         },
         root: {
           color: arcGrey,
@@ -117,6 +118,7 @@ const theme = createTheme({
         root: {
           color: arcBlue,
           fontSize: "1rem",
+          
         },
       },
     },
@@ -137,6 +139,24 @@ const theme = createTheme({
       },
     },
     
+    MuiInputBase:{
+      styleOverrides:{
+        root:{
+          ":hover:not(.Mui-disabled):before":{
+            borderBottom:0
+          }
+        }
+      }
+    },
+    MuiSvgIcon:{
+      styleOverrides:{
+        root:{
+          "&.MuiSelect-icon":{
+            fill:arcOrange
+          }
+        }
+      }
+    }
     // MuiFormControl:{
     //   styleOverrides:{
     //     root:{
