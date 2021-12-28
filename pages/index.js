@@ -22,6 +22,30 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import { format } from "date-fns";
+
+const createData = (
+  name,
+  date,
+  service,
+  features,
+  complexity,
+  platforms,
+  users,
+  total
+) => {
+  return {
+    name,
+    date,
+    service,
+    features,
+    complexity,
+    platforms,
+    users,
+    total,
+  };
+};
 
 const formControlCss = css`
   margin-right: 5rem;
@@ -41,6 +65,16 @@ const radioLabelCss = {
   },
 };
 
+const addBtn = (theme) => css`
+  color: #fff;
+  background-color: ${theme.palette.common.orange};
+  border-radius: 50;
+  text-transform: none;
+  &:hover {
+    background-color: ${theme.palette.secondary.light};
+  }
+`;
+
 // const userRadioStyle ={
 
 // }
@@ -55,6 +89,59 @@ const HomePage = () => {
     "Biometrics",
     "Push Notifications",
   ];
+
+  const [rows, setRows] = useState([
+    createData(
+      "Sepanta",
+      "11/2/19",
+      "website",
+      "commerce",
+      "N/A",
+      "N/A",
+      "N/A",
+      "$15000"
+    ),
+    createData(
+      "Bill Gates",
+      "10/17/19",
+      "Custom Software",
+      "GPS, Push Notifications, Users/Authentication, File Transfer",
+      "Medium",
+      "Web Application",
+      "0-10",
+      "$1600"
+    ),
+    createData(
+      "Steve Jobs",
+      "2/13/19",
+      "Custom Software",
+      "Photo/Video, File Transfer, Users/Authentication",
+      "Low",
+      "Web Application",
+      "10-100",
+      "$1250"
+    ),
+    createData(
+      "Stan Smith",
+      "2/13/19",
+      "Mobile App",
+      "Photo/Video, File Transfer, Users/Authentication",
+      "Low",
+      "iOS, Android",
+      "10-100",
+      "$1250"
+    ),
+    createData(
+      "Albert Einstein",
+      "2/13/19",
+      "Mobile App",
+      "Photo/Video, File Transfer, Users/Authentication",
+      "Low",
+      "Android",
+      "10-100",
+      "$1250"
+    ),
+  ]);
 
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -72,6 +159,23 @@ const HomePage = () => {
   const [users, setUsers] = useState("");
   const [platforms, setPlatforms] = useState([]);
   const [features, setFeatures] = useState([]);
+
+  const addProject = () => {
+    setRows([
+      ...rows,
+      createData(
+        name,
+        format(date, "MM/dd/yy"),
+        service,
+        features.join(", "),
+        complexity,
+        platforms.join(", "),
+        users,
+        total
+      ),
+    ]);
+    setIsDialogOpen(false);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -163,7 +267,7 @@ const HomePage = () => {
         </Grid>
 
         <Grid item>
-          <TableComponent />
+          <TableComponent rows={rows} />
         </Grid>
         {/******** Dialog Section (optinal Section) ********/}
         <Dialog
@@ -343,7 +447,7 @@ const HomePage = () => {
                     />
                   </Grid>
                   {/******** Total Col ( Users Radio Btn) ********/}
-                  <Grid item>
+                  <Grid item css={{ alignSelf: "flex-end" }}>
                     <Grid
                       item
                       container
@@ -380,31 +484,52 @@ const HomePage = () => {
                           />
                         </RadioGroup>
                       </Grid>
-                      <Grid item css={{ marginTop: "5rem" }}>
-                        <Select
-                          css={{ width: "12rem" }}
-                          displayEmpty
-                          renderValue={
-                            features.length > 0 ? null : () => "features"
-                          }
-                          labelId="features"
-                          MenuProps={{ style: { zIndex: 1302 } }}
-                          id="features"
-                          multiple
-                          value={features}
-                          onChange={(e) => setFeatures(e.target.value)}
-                          variant="standard"
-                        >
-                          {featureOptions.map((option) => (
-                            <MenuItem key={option} value={option}>
-                              {option}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>
                     </Grid>
                   </Grid>
+                  <Grid item css={{ marginTop: "5rem" }}>
+                    <Select
+                      css={{ width: "12rem" }}
+                      displayEmpty
+                      renderValue={
+                        features.length > 0 ? null : () => "features"
+                      }
+                      labelId="features"
+                      MenuProps={{ style: { zIndex: 1302 } }}
+                      id="features"
+                      multiple
+                      value={features}
+                      onChange={(e) => setFeatures(e.target.value)}
+                      variant="standard"
+                    >
+                      {featureOptions.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
                 </Grid>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              justifyContent={"center"}
+              css={{ marginTop: "3rem" }}
+              columnGap={3}
+            >
+              <Grid item>
+                <Button
+                  color="primary"
+                  css={{ fontWeight: 300, textTransform: "none" }}
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" css={addBtn} onClick={addProject}>
+                  Add Project +
+                </Button>
               </Grid>
             </Grid>
           </DialogContent>
