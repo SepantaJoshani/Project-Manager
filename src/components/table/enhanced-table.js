@@ -93,11 +93,11 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align='center'
+            align="center"
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
-            hideSortIcon
+              hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
@@ -151,18 +151,18 @@ const EnhancedTableToolbar = (props) => {
         >
           {numSelected} selected
         </Typography>
-      ) : null}
+      ) :<Typography  sx={{ flex: "1 1 100%" }}>{null}</Typography> }
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon sx={{fontSize:30}} color="primary" />
+            <DeleteIcon sx={{ fontSize: 30 }} color="primary" />
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
+        <Tooltip title="Filter list" >
           <IconButton>
-            <FilterListIcon sx={{fontSize:50}} color="secondary" />
+            <FilterListIcon sx={{ fontSize: 50 }} color="secondary" />
           </IconButton>
         </Tooltip>
       )}
@@ -178,7 +178,7 @@ export default function EnhancedTable(props) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
+
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -217,19 +217,19 @@ export default function EnhancedTable(props) {
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    props.setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    props.setPage(0);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  // const emptyRows =
+  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -252,8 +252,14 @@ export default function EnhancedTable(props) {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(props.rows.filter(row=>row.search), getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {stableSort(
+                props.rows.filter((row) => row.search),
+                getComparator(order, orderBy)
+              )
+                .slice(
+                  props.page * rowsPerPage,
+                  props.page * rowsPerPage + rowsPerPage
+                )
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
@@ -298,24 +304,15 @@ export default function EnhancedTable(props) {
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[2, 5, 10, 25]}
           component="div"
-          count={props.rows.length}
+          count={props.rows.filter((row) => row.search).length}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={props.page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />

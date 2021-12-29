@@ -91,6 +91,7 @@ const HomePage = () => {
   const [platforms, setPlatforms] = useState([]);
   const [features, setFeatures] = useState([]);
   const [search, setSearch] = useState("");
+  const [page, setPage] = React.useState(0);
 
   const addProject = () => {
     setRows([
@@ -120,7 +121,23 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    filterData(rows, e);
+    const rowsData = rows.map((row) =>
+      Object.values(row).filter((option) => option !== false && option !== true)
+    );
+
+    const matches = rowsData.map((row) =>
+      row.map((option) =>
+        option.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
+    const newRows = [...rows];
+    matches.map((row, index) =>
+      row.includes(true)
+        ? (newRows[index].search = true)
+        : (newRows[index].search = false)
+    );
+    setRows(newRows);
+    setPage(0);
   };
 
   const btnDisableHandler = () => {
@@ -231,12 +248,10 @@ const HomePage = () => {
           container
           justifyContent="flex-end"
           css={{ marginTop: "5rem" }}
-        >
-        
-        </Grid>
+        ></Grid>
 
-        <Grid item css={{marginTop:'5rem'}}>
-          <EnhancedTable rows={rows} />
+        <Grid item css={{ marginTop: "5rem" }}>
+          <EnhancedTable rows={rows} page={page} setPage={setPage} />
         </Grid>
         {/******** Dialog Section (optinal Section) ********/}
         <Dialog
