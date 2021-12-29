@@ -79,3 +79,21 @@ export const initialState = [
     true
   ),
 ];
+
+export const filterData = (rows,event)=>{
+  const rowsData = rows.map((row) =>
+  Object.values(row).filter((option) => option !== false && option !== true)
+);
+
+const matches = rowsData.map((row) =>
+  row.map((option) =>
+    option.toLowerCase().includes(event.target.value.toLowerCase())
+  )
+);
+const newRows = [...rows];
+matches.map((row, index) =>
+  row.includes(true)
+    ? (newRows[index].search = true)
+    : (newRows[index].search = false)
+);
+}

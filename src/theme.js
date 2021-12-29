@@ -94,7 +94,6 @@ const theme = createTheme({
           ":before": {
             borderBottom: `2px solid ${arcBlue}`,
           },
-          
         },
         root: {
           color: arcGrey,
@@ -118,7 +117,6 @@ const theme = createTheme({
         root: {
           color: arcBlue,
           fontSize: "1rem",
-          
         },
       },
     },
@@ -138,34 +136,51 @@ const theme = createTheme({
         },
       },
     },
-    
-    MuiInputBase:{
-      styleOverrides:{
-        root:{
-          ":hover:not(.Mui-disabled):before":{
-            borderBottom:0
-          }
-        }
-      }
+
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          ":hover:not(.Mui-disabled):before": {
+            borderBottom: 0,
+          },
+        },
+      },
     },
-    MuiSvgIcon:{
-      styleOverrides:{
-        root:{
-          "&.MuiSelect-icon":{
-            fill:arcOrange
-          }
-        }
-      }
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          "&.MuiSelect-icon": {
+            fill: arcOrange,
+          },
+        },
+      },
     },
-    MuiSelect:{
-      styleOverrides:{
-        select:{
-          ":focus":{
-            background:'none'
-          }
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          ":focus": {
+            background: "none",
+          },
+        },
+      },
+    },
+    MuiTableSortLabel: {
+      styleOverrides: {
+        root: {
+          "&:hover":{
+            color:arcOrange
+          },
+          "&.Mui-active": {
+            color: arcOrange,
+          },
+          
+        },
+        icon:{
+          fill:arcOrange
         }
-      }
-    }
+      },
+    },
+
     // MuiFormControl:{
     //   styleOverrides:{
     //     root:{

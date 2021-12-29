@@ -24,7 +24,13 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { format } from "date-fns";
-import { createData, initialState } from "../helper/helper-functions";
+import {
+  createData,
+  filterData,
+  initialState,
+} from "../helper/helper-functions";
+
+import EnhancedTable from "../src/components/table/enhanced-table";
 
 const formControlCss = css`
   margin-right: 5rem;
@@ -114,21 +120,7 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    const rowsData = rows.map((row) =>
-      Object.values(row).filter((option) => option !== false && option !== true)
-    );
-
-    const matches = rowsData.map((row) =>
-      row.map((option) =>
-        option.toLowerCase().includes(e.target.value.toLowerCase())
-      )
-    );
-    const newRows = [...rows];
-    matches.map((row, index) =>
-      row.includes(true)
-        ? (newRows[index].search = true)
-        : (newRows[index].search = false)
-    );
+    filterData(rows, e);
   };
 
   const btnDisableHandler = () => {
@@ -240,13 +232,11 @@ const HomePage = () => {
           justifyContent="flex-end"
           css={{ marginTop: "5rem" }}
         >
-          <Grid item css={{ marginRight: 70 }}>
-            <FilterListIcon color="secondary" css={{ fontSize: 50 }} />
-          </Grid>
+        
         </Grid>
 
-        <Grid item>
-          <TableComponent rows={rows} />
+        <Grid item css={{marginTop:'5rem'}}>
+          <EnhancedTable rows={rows} />
         </Grid>
         {/******** Dialog Section (optinal Section) ********/}
         <Dialog
