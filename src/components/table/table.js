@@ -7,11 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 
-
-
-const TableComponent = ({rows}) => {
- 
-
+const TableComponent = ({ rows }) => {
   return (
     <Fragment>
       <TableContainer component={Paper} elevation={0}>
@@ -29,20 +25,22 @@ const TableComponent = ({rows}) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={index + row}>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.date}</TableCell>
-                <TableCell align="center">{row.service}</TableCell>
-                <TableCell align="center" sx={{ maxWidth: "5rem" }}>
-                  {row.features}
-                </TableCell>
-                <TableCell align="center">{row.complexity}</TableCell>
-                <TableCell align="center">{row.platforms}</TableCell>
-                <TableCell align="center">{row.users}</TableCell>
-                <TableCell align="center">{row.total}</TableCell>
-              </TableRow>
-            ))}
+            {rows
+              .filter((row) => row.search)
+              .map((row, index) => (
+                <TableRow key={index + row}>
+                  <TableCell align="center">{row.name}</TableCell>
+                  <TableCell align="center">{row.date}</TableCell>
+                  <TableCell align="center">{row.service}</TableCell>
+                  <TableCell align="center" sx={{ maxWidth: "5rem" }}>
+                    {row.features}
+                  </TableCell>
+                  <TableCell align="center">{row.complexity}</TableCell>
+                  <TableCell align="center">{row.platforms}</TableCell>
+                  <TableCell align="center">{row.users}</TableCell>
+                  <TableCell align="center">{row.total}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

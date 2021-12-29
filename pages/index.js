@@ -84,6 +84,7 @@ const HomePage = () => {
   const [users, setUsers] = useState("");
   const [platforms, setPlatforms] = useState([]);
   const [features, setFeatures] = useState([]);
+  const [search, setSearch] = useState("");
 
   const addProject = () => {
     setRows([
@@ -96,7 +97,8 @@ const HomePage = () => {
         service === "website" ? "N/A" : complexity,
         service === "website" ? "N/A" : platforms.join(", "),
         service === "website" ? "N/A" : users,
-        `$${total}`
+        `$${total}`,
+        true
       ),
     ]);
     setIsDialogOpen(false);
@@ -108,6 +110,25 @@ const HomePage = () => {
     setUsers("");
     setPlatforms([]);
     setFeatures([]);
+  };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    const rowsData = rows.map((row) =>
+      Object.values(row).filter((option) => option !== false && option !== true)
+    );
+
+    const matches = rowsData.map((row) =>
+      row.map((option) =>
+        option.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
+    const newRows = [...rows];
+    matches.map((row, index) =>
+      row.includes(true)
+        ? (newRows[index].search = true)
+        : (newRows[index].search = false)
+    );
   };
 
   const btnDisableHandler = () => {
@@ -141,6 +162,8 @@ const HomePage = () => {
         </Grid>
         <Grid item>
           <TextField
+            value={search}
+            onChange={handleSearch}
             placeholder="Search projects or enter a new"
             variant="standard"
             css={css`
