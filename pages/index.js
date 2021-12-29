@@ -93,10 +93,10 @@ const HomePage = () => {
         format(date, "MM/dd/yy"),
         service,
         features.join(", "),
-        complexity,
-        platforms.join(", "),
-        users,
-        total
+        service === "website" ? "N/A" : complexity,
+        service === "website" ? "N/A" : platforms.join(", "),
+        service === "website" ? "N/A" : users,
+        `$${total}`
       ),
     ]);
     setIsDialogOpen(false);
@@ -112,7 +112,12 @@ const HomePage = () => {
 
   const btnDisableHandler = () => {
     if (service === "website") {
-      if (name.length === 0 || total.length === 0 || features.length === 0)
+      if (
+        name.length === 0 ||
+        total.length === 0 ||
+        features.length === 0 ||
+        features.length > 1
+      )
         return true;
     } else {
       if (
@@ -266,7 +271,10 @@ const HomePage = () => {
                         aria-label="service"
                         name="service"
                         value={service}
-                        onChange={(e) => setService(e.target.value)}
+                        onChange={(e) => {
+                          setService(e.target.value);
+                          setFeatures([]);
+                        }}
                       >
                         <FormControlLabel
                           css={radioLabelCss}
