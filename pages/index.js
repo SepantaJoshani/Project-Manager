@@ -24,28 +24,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { format } from "date-fns";
-
-const createData = (
-  name,
-  date,
-  service,
-  features,
-  complexity,
-  platforms,
-  users,
-  total
-) => {
-  return {
-    name,
-    date,
-    service,
-    features,
-    complexity,
-    platforms,
-    users,
-    total,
-  };
-};
+import { createData, initialState } from "../helper/helper-functions";
 
 const formControlCss = css`
   margin-right: 5rem;
@@ -75,13 +54,9 @@ const addBtn = (theme) => css`
   }
 `;
 
-// const userRadioStyle ={
-
-// }
-
 const HomePage = () => {
   const platformOptions = ["web", "iOS", "Android"];
-  const featureOptions = [
+  var featureOptions = [
     "Photo/Video",
     "GPS",
     "File Transfer",
@@ -89,59 +64,9 @@ const HomePage = () => {
     "Biometrics",
     "Push Notifications",
   ];
+  var websiteOptions = ["Basic", "Interactive", "E-commerce"];
 
-  const [rows, setRows] = useState([
-    createData(
-      "Sepanta",
-      "11/2/19",
-      "website",
-      "commerce",
-      "N/A",
-      "N/A",
-      "N/A",
-      "$15000"
-    ),
-    createData(
-      "Bill Gates",
-      "10/17/19",
-      "Custom Software",
-      "GPS, Push Notifications, Users/Authentication, File Transfer",
-      "Medium",
-      "Web Application",
-      "0-10",
-      "$1600"
-    ),
-    createData(
-      "Steve Jobs",
-      "2/13/19",
-      "Custom Software",
-      "Photo/Video, File Transfer, Users/Authentication",
-      "Low",
-      "Web Application",
-      "10-100",
-      "$1250"
-    ),
-    createData(
-      "Stan Smith",
-      "2/13/19",
-      "Mobile App",
-      "Photo/Video, File Transfer, Users/Authentication",
-      "Low",
-      "iOS, Android",
-      "10-100",
-      "$1250"
-    ),
-    createData(
-      "Albert Einstein",
-      "2/13/19",
-      "Mobile App",
-      "Photo/Video, File Transfer, Users/Authentication",
-      "Low",
-      "Android",
-      "10-100",
-      "$1250"
-    ),
-  ]);
+  const [rows, setRows] = useState(initialState);
 
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -183,6 +108,24 @@ const HomePage = () => {
     setUsers("");
     setPlatforms([]);
     setFeatures([]);
+  };
+
+  const btnDisableHandler = () => {
+    if (service === "website") {
+      if (name.length === 0 || total.length === 0 || features.length === 0)
+        return true;
+    } else {
+      if (
+        name.length === 0 ||
+        total.length === 0 ||
+        features.length === 0 ||
+        users.length === 0 ||
+        complexity.length === 0 ||
+        platforms.length === 0 ||
+        service.length === 0
+      )
+        return true;
+    }
   };
 
   return (
@@ -347,6 +290,7 @@ const HomePage = () => {
                     </Grid>
                     <Grid item css={{ marginTop: "5rem" }}>
                       <Select
+                        disabled={service === "website"}
                         css={{ width: "12rem" }}
                         displayEmpty
                         renderValue={
@@ -474,17 +418,20 @@ const HomePage = () => {
                         >
                           <FormControlLabel
                             css={radioLabelCss}
+                            disabled={service === "website"}
                             value="0-10"
                             label="0-10"
                             control={<Radio color="secondary" />}
                           />
                           <FormControlLabel
+                            disabled={service === "website"}
                             css={radioLabelCss}
                             value="10-100"
                             label="10-100"
                             control={<Radio color="secondary" />}
                           />
                           <FormControlLabel
+                            disabled={service === "website"}
                             css={radioLabelCss}
                             value="100+"
                             label="100+"
@@ -509,6 +456,8 @@ const HomePage = () => {
                       onChange={(e) => setFeatures(e.target.value)}
                       variant="standard"
                     >
+                      {service === "website" &&
+                        (featureOptions = websiteOptions)}
                       {featureOptions.map((option) => (
                         <MenuItem key={option} value={option}>
                           {option}
@@ -519,6 +468,8 @@ const HomePage = () => {
                 </Grid>
               </Grid>
             </Grid>
+            {/******** Button Section  ********/}
+
             <Grid
               container
               justifyContent={"center"}
@@ -538,19 +489,7 @@ const HomePage = () => {
                 <Button
                   variant="contained"
                   css={addBtn}
-                  disabled={
-                    service === "website"
-                      ? name.length === 0 ||
-                        total.length === 0 ||
-                        features.length === 0
-                      : name.length === 0 ||
-                        total.length === 0 ||
-                        features.length === 0 ||
-                        users.length === 0 ||
-                        complexity.length === 0 ||
-                        platforms.length === 0 ||
-                        service.length === 0
-                  }
+                  disabled={btnDisableHandler()}
                   onClick={addProject}
                 >
                   Add Project +
