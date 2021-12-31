@@ -24,16 +24,9 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { format } from "date-fns";
-import {
-  createData,
-  filterData,
-  initialState,
-} from "../helper/helper-functions";
+import { createData, initialState } from "../helper/helper-functions";
 
 import EnhancedTable from "../src/components/table/enhanced-table";
-
-
-
 
 const formControlCss = css`
   margin-right: 5rem;
@@ -254,7 +247,16 @@ const HomePage = () => {
         ></Grid>
 
         <Grid item css={{ marginTop: "5rem" }}>
-          <EnhancedTable setRows={setRows} rows={rows} page={page} setPage={setPage} />
+          <EnhancedTable
+            setRows={setRows}
+            rows={rows}
+            page={page}
+            setPage={setPage}
+            websiteChecked={websiteChecked}
+            iOSChecked={iOSChecked}
+            androidChecked={androidChecked}
+            softwareChecked={softwareChecked}
+          />
         </Grid>
         {/******** Dialog Section (optinal Section) ********/}
         <Dialog

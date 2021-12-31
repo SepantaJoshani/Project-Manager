@@ -166,13 +166,13 @@ const EnhancedTableToolbar = (props) => {
     setRows(newRows);
   };
 
-  const onCloseHandler = (event,reason) => {
-  if(reason==='clickaway'){
-    setAlert({ ...alert, open: false });
-    const newRows = [...rows];
-    const name = [...undo.map((row) => row.name)];
-    setRows(newRows.filter((row) => !name.includes(row.name)));
-  }
+  const onCloseHandler = (event, reason) => {
+    if (reason === "clickaway") {
+      setAlert({ ...alert, open: false });
+      const newRows = [...rows];
+      const name = [...undo.map((row) => row.name)];
+      setRows(newRows.filter((row) => !name.includes(row.name)));
+    }
   };
 
   return (
@@ -300,6 +300,44 @@ export default function EnhancedTable(props) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  const switchFilter = () => {
+    const { websiteChecked, iOSChecked, androidChecked, softwareChecked } =
+      props;
+
+    const websites = props.rows.filter(
+      (row) => websiteChecked && row.service === "website"
+    );
+
+    const iOSApps = props.rows.filter(
+      (row) => iOSChecked && row.platforms.includes("iOS")
+    );
+
+    const androidApps = props.rows.filter(
+      (row) => androidChecked && row.platforms.includes("Android")
+    );
+
+    const softwareApps = props.rows.filter(
+      (row) => softwareChecked && row.service === "Custom Software"
+    );
+
+    if (!websiteChecked && !iOSChecked && !androidChecked && !softwareChecked) {
+      return props.rows;
+    } else {
+      let newRows = websites.concat(
+        iOSApps.filter((item) => websites.indexOf(item) < 0)
+      );
+      let newRows2 = newRows.concat(
+        androidApps.filter((item) => newRows.indexOf(item) < 0)
+      );
+
+      let newRows3 = newRows2.concat(
+        softwareApps.filter((item) => newRows2.indexOf(item) < 0)
+      );
+
+      return newRows3;
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper elevation={0} sx={{ width: "100%", mb: 2 }}>
@@ -328,7 +366,7 @@ export default function EnhancedTable(props) {
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(
-                props.rows.filter((row) => row.search),
+                switchFilter().filter((row) => row.search),
                 getComparator(order, orderBy)
               )
                 .slice(
