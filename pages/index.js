@@ -32,6 +32,9 @@ import {
 
 import EnhancedTable from "../src/components/table/enhanced-table";
 
+
+
+
 const formControlCss = css`
   margin-right: 5rem;
 `;
@@ -251,7 +254,7 @@ const HomePage = () => {
         ></Grid>
 
         <Grid item css={{ marginTop: "5rem" }}>
-          <EnhancedTable rows={rows} page={page} setPage={setPage} />
+          <EnhancedTable setRows={setRows} rows={rows} page={page} setPage={setPage} />
         </Grid>
         {/******** Dialog Section (optinal Section) ********/}
         <Dialog

@@ -21,6 +21,8 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import Snackbar from "@mui/material/Snackbar";
+import Button from "@mui/material/Button";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -63,6 +65,9 @@ const headCells = [
   { id: "total", label: "Total" },
 ];
 
+{
+  /************ TableHead Section ************/
+}
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
@@ -125,8 +130,50 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+{
+  /************ Toolbar Section ************/
+}
+
 const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
+  const { numSelected, selected, setSelected, rows, setRows } = props;
+
+  const [alert, setAlert] = React.useState({
+    open: false,
+    backgroundColor: "#DD3232",
+    message: "Row deleted!",
+  });
+  const [undo, setUndo] = React.useState([]);
+
+  const onDeleteHandler = () => {
+    const newRows = [...rows];
+    console.log(selected);
+    const selectedRows = newRows.filter((row) => selected.includes(row.name));
+    selectedRows.map((row) => (row.search = false));
+
+    setRows(newRows);
+    setUndo(selectedRows);
+    setSelected([]);
+    setAlert({ ...alert, open: true });
+  };
+  const onUndoHandler = () => {
+    setAlert({ ...alert, open: false });
+    const newRows = [...rows];
+    const redo = [...undo];
+
+    redo.map((row) => (row.search = true));
+
+    newRows.push(redo);
+    setRows(newRows);
+  };
+
+  const onCloseHandler = (event,reason) => {
+  if(reason==='clickaway'){
+    setAlert({ ...alert, open: false });
+    const newRows = [...rows];
+    const name = [...undo.map((row) => row.name)];
+    setRows(newRows.filter((row) => !name.includes(row.name)));
+  }
+  };
 
   return (
     <Toolbar
@@ -151,21 +198,43 @@ const EnhancedTableToolbar = (props) => {
         >
           {numSelected} selected
         </Typography>
-      ) :<Typography  sx={{ flex: "1 1 100%" }}>{null}</Typography> }
+      ) : (
+        <Typography sx={{ flex: "1 1 100%" }}>{null}</Typography>
+      )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={onDeleteHandler}>
             <DeleteIcon sx={{ fontSize: 30 }} color="primary" />
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list" >
+        <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon sx={{ fontSize: 50 }} color="secondary" />
           </IconButton>
         </Tooltip>
       )}
+
+      {/******* SnackBar Place (optional) *******/}
+
+      <Snackbar
+        open={alert.open}
+        ContentProps={{
+          style: {
+            background: alert.backgroundColor,
+          },
+        }}
+        message={alert.message}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={2000}
+        onClose={onCloseHandler}
+        action={
+          <Button onClick={onUndoHandler} sx={{ color: "#fff" }}>
+            Undo
+          </Button>
+        }
+      />
     </Toolbar>
   );
 };
@@ -173,6 +242,10 @@ const EnhancedTableToolbar = (props) => {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
+
+{
+  /************ The Full Table Section ************/
+}
 
 export default function EnhancedTable(props) {
   const [order, setOrder] = React.useState("asc");
@@ -227,14 +300,16 @@ export default function EnhancedTable(props) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
-
   return (
     <Box sx={{ width: "100%" }}>
       <Paper elevation={0} sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          setRows={props.setRows}
+          rows={props.rows}
+          selected={selected}
+          setSelected={setSelected}
+          numSelected={selected.length}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

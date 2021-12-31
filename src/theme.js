@@ -140,12 +140,13 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          ":hover:not(.Mui-disabled):before": {
-            borderBottom: 0,
-          },
+          ":hover:not(.Mui-disabled):before":{
+            borderBottom:`2px solid ${arcBlue} !important`
+          }
         },
       },
     },
+
     MuiSvgIcon: {
       styleOverrides: {
         root: {
@@ -167,17 +168,16 @@ const theme = createTheme({
     MuiTableSortLabel: {
       styleOverrides: {
         root: {
-          "&:hover":{
-            color:arcOrange
+          "&:hover": {
+            color: arcOrange,
           },
           "&.Mui-active": {
             color: arcOrange,
           },
-          
         },
-        icon:{
-          fill:arcOrange
-        }
+        icon: {
+          fill: arcOrange,
+        },
       },
     },
 

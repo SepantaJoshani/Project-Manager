@@ -13,6 +13,7 @@
     "@mui/material": "latest",
     "clsx": "latest",
     "date-fns": "^2.27.0",
+    "hamburger-react": "^2.4.1",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
