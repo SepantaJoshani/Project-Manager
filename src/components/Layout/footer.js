@@ -22,6 +22,7 @@ const Footer = () => {
         width: "100%",
         background: theme.palette.primary.main,
         
+        
       })}
     >
       

@@ -44,10 +44,10 @@ export default function MyApp(props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+       
       
         <Header changeThemeHandler={toggleTheme} />
-        <Paper elevation={0} sx={{borderRadius:0}}>
+        <Paper elevation={0} sx={{borderRadius:0,width:'100%'}}>
         <Component {...pageProps} />
         </Paper>
         <Footer />

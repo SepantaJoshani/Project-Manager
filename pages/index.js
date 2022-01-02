@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Grid from "@mui/material/Grid";
@@ -13,8 +13,6 @@ import AddIcon from "@mui/icons-material/Add";
 import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import TableComponent from "../src/components/table/table";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "@mui/lab/DatePicker";
@@ -32,13 +30,6 @@ const formControlCss = css`
   margin-right: 5rem;
 `;
 
-const SearchInpCss = css`
-  width: 35rem;
-  margin-left: 5rem;
-  /* .css-z4l6y0-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled):before {
-    border-bottom: 2px solid #0b72b9 !important;
-  } */
-`;
 
 const radioLabelCss = {
   ".MuiFormControlLabel-label": {
@@ -90,6 +81,13 @@ const HomePage = () => {
   const [features, setFeatures] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = React.useState(0);
+
+  useEffect(() => {
+    if(service==='website'){
+      setUsers('')
+      setPlatforms([])
+    }
+  }, [service])
 
   const addProject = () => {
     setRows([
@@ -173,9 +171,7 @@ const HomePage = () => {
             onChange={handleSearch}
             placeholder="Search projects or enter a new"
             variant="standard"
-            css={css`
-              ${SearchInpCss}
-            `}
+            sx={{width:'35rem',marginLeft:'5rem'}}
             InputProps={{
               endAdornment: (
                 <InputAdornment
@@ -289,6 +285,7 @@ const HomePage = () => {
                       onChange={(e) => {
                         setName(e.target.value);
                       }}
+                      autoComplete='off'
                     />
                   </Grid>
                   {/******** Name Col (Service Radio Btn) ********/}
@@ -439,6 +436,8 @@ const HomePage = () => {
                           <InputAdornment position="start">$</InputAdornment>
                         ),
                       }}
+                      autoComplete='off'
+
                     />
                   </Grid>
                   {/******** Total Col ( Users Radio Btn) ********/}
