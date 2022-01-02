@@ -227,7 +227,6 @@ const EnhancedTableToolbar = (props) => {
         }}
         message={alert.message}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        autoHideDuration={2000}
         onClose={onCloseHandler}
         action={
           <Button onClick={onUndoHandler} sx={{ color: "#fff" }}>

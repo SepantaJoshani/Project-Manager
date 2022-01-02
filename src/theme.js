@@ -5,8 +5,9 @@ const arcOrange = "#FFBA60";
 const arcGrey = "#868686";
 
 // Create a theme instance.
-const theme = createTheme({
+const lightTheme = createTheme({
   palette: {
+    mode:'light',
     common: {
       blue: arcBlue,
       orange: arcOrange,
@@ -14,6 +15,7 @@ const theme = createTheme({
 
     primary: {
       main: arcBlue,
+      
     },
     secondary: {
       main: arcOrange,
@@ -194,4 +196,22 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+const darkTheme =createTheme({
+  ...lightTheme,
+  palette:{
+    mode:'dark',
+    primary: {
+      main: arcBlue,
+      
+    }, secondary: {
+      main: arcOrange,
+    },
+    common: {
+      blue: arcBlue,
+      orange: arcOrange,
+    },
+    
+  }
+})
+
+export  {lightTheme,darkTheme};

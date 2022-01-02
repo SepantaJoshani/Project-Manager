@@ -56,6 +56,9 @@ const addBtn = (theme) => css`
   }
 `;
 
+
+
+
 const HomePage = () => {
   const platformOptions = ["web", "iOS", "Android"];
   var featureOptions = [
@@ -69,7 +72,6 @@ const HomePage = () => {
   var websiteOptions = ["Basic", "Interactive", "E-commerce"];
 
   const [rows, setRows] = useState(initialState);
-
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -246,7 +248,7 @@ const HomePage = () => {
           css={{ marginTop: "5rem" }}
         ></Grid>
 
-        <Grid item css={{ marginTop: "5rem" }}>
+        <Grid item css={{ marginTop: "5rem",marginBottom:'15rem' }}>
           <EnhancedTable
             setRows={setRows}
             rows={rows}

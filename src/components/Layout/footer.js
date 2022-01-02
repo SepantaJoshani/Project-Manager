@@ -21,7 +21,7 @@ const Footer = () => {
       css={(theme) => ({
         width: "100%",
         background: theme.palette.primary.main,
-        marginTop:'15rem'
+        
       })}
     >
       
