@@ -23,6 +23,11 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Snackbar from "@mui/material/Snackbar";
 import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuIem from "@mui/material/Menu";
+import InputAdornment from "@mui/material/InputAdornment";
+import Textfield from "@mui/material/TextField";
+import { MenuItem } from "@mui/material";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -143,6 +148,20 @@ const EnhancedTableToolbar = (props) => {
     message: "Row deleted!",
   });
   const [undo, setUndo] = React.useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openMenu, setOpenMenu] = React.useState(false);
+  const [totalFilter, setTotalFilter] = React.useState(">");
+  const [filterPrice, setFilterPrice] = React.useState("");
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+    setOpenMenu(true);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpenMenu(false);
+  };
 
   const onDeleteHandler = () => {
     const newRows = [...rows];
@@ -162,7 +181,8 @@ const EnhancedTableToolbar = (props) => {
 
     redo.map((row) => (row.search = true));
 
-    newRows.push(redo);
+    newRows.concat(redo);
+    console.log(redo);
     setRows(newRows);
   };
 
@@ -172,6 +192,45 @@ const EnhancedTableToolbar = (props) => {
       const newRows = [...rows];
       const name = [...undo.map((row) => row.name)];
       setRows(newRows.filter((row) => !name.includes(row.name)));
+    }
+  };
+
+  const handleTotalFilter = (e) => {
+    const enteredValue = e.target.value;
+    setFilterPrice(enteredValue);
+
+    if (enteredValue !== "") {
+      const newRows = [...rows];
+      newRows.map((row) =>
+        eval(
+          `${enteredValue} ${
+            totalFilter === "=" ? "===" : totalFilter
+          }  ${row.total.slice(1, row.total.length)}`
+        )
+          ? (row.search = true)
+          : (row.search = false)
+      );
+      setRows(newRows);
+    } else {
+      const newRows = [...rows];
+      newRows.map((row) => (row.search = true));
+      setRows(newRows);
+    }
+  };
+
+  const filterChange = (operator) => {
+    if (filterPrice !== "") {
+      const newRows = [...rows];
+      newRows.map((row) =>
+        eval(
+          `${filterPrice} ${
+            operator === "=" ? "===" : operator
+          }  ${row.total.slice(1, row.total.length)}`
+        )
+          ? (row.search = true)
+          : (row.search = false)
+      );
+      setRows(newRows);
     }
   };
 
@@ -210,7 +269,7 @@ const EnhancedTableToolbar = (props) => {
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <FilterListIcon sx={{ fontSize: 50 }} color="secondary" />
           </IconButton>
         </Tooltip>
@@ -234,6 +293,73 @@ const EnhancedTableToolbar = (props) => {
           </Button>
         }
       />
+      {/******* Menu Place (optional) *******/}
+      <Menu
+        id="menu"
+        anchorEl={anchorEl}
+        disableAutoFocusItem
+        open={openMenu}
+        onClose={handleClose}
+      >
+        <MenuItem
+          sx={{
+            "&.MuiMenuItem-root": {
+              ":hover": {
+                background: "transparent",
+              },
+            },
+            "&.Mui-focusVisible": {
+              background: "transparent",
+            },
+          }}
+        >
+          <Textfield
+            value={filterPrice}
+            onChange={handleTotalFilter}
+            FormHelperTextProps={{ sx: { color: "common.blue", fontSize: 14 } }}
+            helperText="click the icon to change the filter"
+            variant="standard"
+            placeholder="Enter a price"
+            InputProps={{
+              type: "number",
+              startAdornment: (
+                <InputAdornment position="start">
+                  {" "}
+                  <Box sx={{ color: "secondary.main", fontSize: "1.5rem" }}>
+                    $
+                  </Box>{" "}
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment
+                  onClick={() => {
+                    setTotalFilter(
+                      totalFilter === ">"
+                        ? "<"
+                        : totalFilter === "<"
+                        ? "="
+                        : ">"
+                    );
+                    filterChange(
+                      totalFilter === ">"
+                        ? "<"
+                        : totalFilter === "<"
+                        ? "="
+                        : ">"
+                    );
+                  }}
+                  position="end"
+                  sx={{ cursor: "pointer" }}
+                >
+                  <Box sx={{ fontSize: "2rem", color: "secondary.main" }}>
+                    {totalFilter}
+                  </Box>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </MenuItem>
+      </Menu>
     </Toolbar>
   );
 };

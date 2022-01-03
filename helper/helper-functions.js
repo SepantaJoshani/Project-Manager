@@ -35,7 +35,7 @@ export const initialState = [
     true
   ),
   createData(
-    "Bill Gates",
+    "Hatef",
     "10/17/19",
     "Custom Software",
     "GPS, Push Notifications, Users/Authentication, File Transfer",
@@ -46,7 +46,7 @@ export const initialState = [
     true
   ),
   createData(
-    "Steve Jobs",
+    "Nojan",
     "2/13/19",
     "Custom Software",
     "Photo/Video, File Transfer, Users/Authentication",
@@ -57,7 +57,7 @@ export const initialState = [
     true
   ),
   createData(
-    "Stan Smith",
+    "Ali",
     "2/13/19",
     "Mobile App",
     "Photo/Video, File Transfer, Users/Authentication",
@@ -68,7 +68,7 @@ export const initialState = [
     true
   ),
   createData(
-    "Albert Einstein",
+    "Soheil",
     "2/13/19",
     "Mobile App",
     "Photo/Video, File Transfer, Users/Authentication",

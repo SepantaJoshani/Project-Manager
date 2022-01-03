@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
+
 const arcBlue = "#0B72B9";
 const arcOrange = "#FFBA60";
 const arcGrey = "#868686";
@@ -201,17 +202,31 @@ const darkTheme =createTheme({
   palette:{
     mode:'dark',
     primary: {
-      main: arcBlue,
+      main: '#606dbb',
       
     }, secondary: {
-      main: arcOrange,
+      main: "#ff9100",
     },
     common: {
       blue: arcBlue,
       orange: arcOrange,
     },
     
+  },
+  components:{
+    ...lightTheme.components,
+    MuiTableCell:{
+      ...lightTheme.components.MuiTableCell,
+      styleOverrides:{
+        ...lightTheme.components.MuiTableCell.styleOverrides,
+        root:{
+          color:'#fff !important'
+        }
+      }
+    }
   }
+  
+ 
 })
 
 export  {lightTheme,darkTheme};
