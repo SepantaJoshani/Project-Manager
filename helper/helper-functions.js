@@ -56,27 +56,6 @@ export const initialState = [
     "$1250",
     true
   ),
-  createData(
-    "Ali",
-    "2/13/19",
-    "Mobile App",
-    "Photo/Video, File Transfer, Users/Authentication",
-    "Low",
-    "iOS, Android",
-    "10-100",
-    "$1250",
-    true
-  ),
-  createData(
-    "Soheil",
-    "2/13/19",
-    "Mobile App",
-    "Photo/Video, File Transfer, Users/Authentication",
-    "Low",
-    "Android",
-    "10-100",
-    "$1250",
-    true
-  ),
+  
 ];
 
