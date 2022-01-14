@@ -4,57 +4,15 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-
-
-
 import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
-import EnhancedTableHead from './enhanced-table-head';
+import EnhancedTableHead from "./enhanced-table-head";
 import EnhancedTableToolbar from "./enhanced-toolbar";
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-
-
-
-
-{
-  /************ The Full Table Section (Enhanced Table) ************/
-}
+import { stableSort, getComparator } from "../../../helper/table-helper";
 
 export default function EnhancedTable(props) {
   const [order, setOrder] = React.useState("asc");
@@ -148,6 +106,26 @@ export default function EnhancedTable(props) {
     }
   };
 
+  const priceFilters = (switchRows) => {
+    if (filterPrice !== "") {
+      const newRows = [...switchRows];
+      newRows.map((row) =>
+        eval(
+          `${filterPrice} ${
+            totalFilter === "=" ? "===" : totalFilter
+          }  ${row.total.slice(1, row.total.length)}`
+        )
+          ? row.search === false
+            ? null
+            : (row.search = true)
+          : (row.search = false)
+      );
+      return newRows;
+    } else {
+      return switchRows;
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper elevation={0} sx={{ width: "100%", mb: 2 }}>
@@ -180,7 +158,7 @@ export default function EnhancedTable(props) {
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(
-                switchFilter().filter((row) => row.search),
+                priceFilters(switchFilter()).filter((row) => row.search),
                 getComparator(order, orderBy)
               )
                 .slice(
@@ -249,10 +227,9 @@ export default function EnhancedTable(props) {
               <Chip
                 onDelete={() => {
                   setFilterPrice("");
-                  const newRows = [...props.rows]
-                  newRows.map(row=>row.search=true)
-                  props.setRows(newRows)
-
+                  const newRows = [...props.rows];
+                  newRows.map((row) => (row.search = true));
+                  props.setRows(newRows);
                 }}
                 sx={{
                   marginRight: "2rem",
