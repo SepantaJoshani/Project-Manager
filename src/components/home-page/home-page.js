@@ -75,7 +75,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = React.useState(0);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (service === "website") {
       setUsers("");
       setPlatforms([]);
@@ -307,7 +307,7 @@ const Home = () => {
           <TextField
             value={search}
             onChange={handleSearch}
-            placeholder="Search projects or enter a new"
+            placeholder="Search or Add"
             variant="standard"
             sx={{
               width: {
