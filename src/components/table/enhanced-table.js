@@ -127,7 +127,16 @@ export default function EnhancedTable(props) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+        marginTop: "5rem",
+        marginBottom: {
+          xs: "40rem",
+          lg: "35rem",
+        },
+      }}
+    >
       <Paper elevation={0} sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           setRows={props.setRows}
@@ -199,7 +208,10 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="center">{row.date}</TableCell>
                       <TableCell align="center">{row.service}</TableCell>
-                      <TableCell align="center" sx={{ maxWidth: "5rem" }}>
+                      <TableCell
+                        align="center"
+                        sx={{width:'5rem' }}
+                      >
                         {row.features}
                       </TableCell>
                       <TableCell align="center">{row.complexity}</TableCell>
@@ -215,11 +227,14 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[2, 5, 10, 25]}
           component="div"
-          count={props.rows.filter((row) => row.search).length}
+          count={
+            priceFilters(switchFilter()).filter((row) => row.search).length
+          }
           rowsPerPage={rowsPerPage}
           page={props.page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          style={{overflow:'unset'}}
         />
         <Grid container justifyContent="flex-end">
           <Grid item>
