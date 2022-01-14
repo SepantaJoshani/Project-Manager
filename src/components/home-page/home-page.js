@@ -75,7 +75,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = React.useState(0);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (service === "website") {
       setUsers("");
       setPlatforms([]);
@@ -156,7 +156,7 @@ const Home = () => {
 
   const serviceSection = (
     <>
-      <Grid item sx={{ marginTop: matchesMD ? 10:'5rem' }}>
+      <Grid item sx={{ marginTop: matchesMD ? 10 : "5rem" }}>
         <Typography variant="h4">Service</Typography>
       </Grid>
       <Grid item>
@@ -213,18 +213,21 @@ const Home = () => {
             onChange={(e) => setComplexity(e.target.value)}
           >
             <FormControlLabel
+              disabled={service === "website"}
               css={radioLabelCss}
               value="Low"
               label="Low"
               control={<Radio color="secondary" />}
             />
             <FormControlLabel
+              disabled={service === "website"}
               css={radioLabelCss}
               value="Medium"
               label="Medium"
               control={<Radio color="secondary" />}
             />
             <FormControlLabel
+              disabled={service === "website"}
               css={radioLabelCss}
               value="High"
               label="High"
@@ -294,7 +297,7 @@ const Home = () => {
         <Grid
           item
           sx={{
-            marginTop:matchesSM?"4rem": "3rem",
+            marginTop: matchesSM ? "4rem" : "3rem",
             marginLeft: {
               xs: 0,
               sm: "5rem",
@@ -303,7 +306,7 @@ const Home = () => {
         >
           <Typography variant="h1">Projects</Typography>
         </Grid>
-        <Grid item sx={{marginTop:matchesSM&&'1.5rem'}}>
+        <Grid item sx={{ marginTop: matchesSM && "1.5rem" }}>
           <TextField
             value={search}
             onChange={handleSearch}
@@ -451,7 +454,11 @@ const Home = () => {
         >
           <Grid container justifyContent={"center"}>
             <Grid item>
-              <Typography variant="h1" gutterBottom sx={{fontSize:matchesSM&&'2rem'}}>
+              <Typography
+                variant="h1"
+                gutterBottom
+                sx={{ fontSize: matchesSM && "2rem" }}
+              >
                 Add a new project
               </Typography>
             </Grid>
@@ -522,7 +529,7 @@ const Home = () => {
                 </Grid>
               </Grid>
               {/******** Datepicker Col ********/}
-              <Grid item sx={{ marginTop: matchesMD ? 7 :'1rem' }}>
+              <Grid item sx={{ marginTop: matchesMD ? 7 : "1rem" }}>
                 <Grid
                   alignItems={"center"}
                   item
